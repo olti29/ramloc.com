@@ -5,129 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RAMLOC | FOOTBALL EDITION 1</title>
     <style>
-        :root {
-            --black: #000000;
-            --white: #ffffff;
-            --pink: #f8c8dc;
-            --gray: #f4f4f4;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica', 'Arial', sans-serif; }
-
+        :root { --black: #000000; --white: #ffffff; --pink: #f8c8dc; --gray: #f4f4f4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica', sans-serif; }
         body { background-color: var(--white); color: var(--black); text-transform: uppercase; overflow-x: hidden; }
 
-        /* Header style Corteiz */
-        header {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--black);
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 100;
-        }
-
+        header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--black); position: sticky; top: 0; background: white; z-index: 100; }
         .logo { font-size: 2rem; font-weight: 900; letter-spacing: -2px; }
-        nav a { margin-left: 20px; text-decoration: none; color: black; font-weight: bold; font-size: 0.9rem; }
+        nav a { margin-left: 20px; text-decoration: none; color: black; font-weight: bold; cursor: pointer; }
 
-        /* Hero Section */
-        .marquee {
-            background: var(--black);
-            color: var(--white);
-            padding: 10px 0;
-            font-size: 0.8rem;
-            overflow: hidden;
-            white-space: nowrap;
-        }
+        .marquee { background: var(--black); color: var(--white); padding: 10px 0; font-size: 0.8rem; overflow: hidden; white-space: nowrap; }
 
-        /* Grid Produits */
-        .shop-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2px;
-            background-color: var(--black); /* Crée les lignes de séparation */
-            border-bottom: 2px solid var(--black);
-        }
+        .shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2px; background-color: var(--black); border-bottom: 2px solid var(--black); }
+        .product-card { background: var(--white); padding: 40px 20px; text-align: center; transition: all 0.3s ease; cursor: pointer; }
+        .product-card:hover { filter: brightness(0.9); }
+        .product-image { width: 100%; height: auto; max-width: 400px; margin-bottom: 20px; }
+        .product-title { font-size: 1.2rem; font-weight: 800; }
+        .product-price { font-size: 1rem; margin-top: 5px; }
 
-        .product-card {
-            background: var(--white);
-            padding: 40px 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .product-card:hover { background: var(--gray); }
-
-        .product-image {
-            width: 100%;
-            height: auto;
-            max-width: 400px;
-            margin-bottom: 20px;
-        }
-
-        .product-info { margin-top: 15px; }
-        .product-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; }
-        .product-price { font-size: 1rem; opacity: 0.7; }
-
-        /* Specific Colors */
         .bg-pink { background-color: #fff0f5; }
 
-        /* Footer */
-        footer { padding: 50px 20px; text-align: center; font-size: 0.7rem; letter-spacing: 2px; }
+        /* Panier */
+        #cart-panel { position: fixed; right: -100%; top: 0; width: 350px; height: 100%; background: white; border-left: 2px solid black; z-index: 1000; transition: 0.3s; padding: 20px; display: flex; flex-direction: column; }
+        #cart-panel.active { right: 0; }
+        .cart-title { font-weight: 900; font-size: 1.5rem; margin-bottom: 20px; border-bottom: 2px solid black; padding-bottom: 10px; }
+        .cart-items { flex-grow: 1; overflow-y: auto; }
+        .btn-checkout { background: black; color: white; padding: 15px; text-align: center; font-weight: bold; margin-top: 20px; cursor: pointer; border: none; width: 100%; }
+        .close-cart { cursor: pointer; font-size: 0.8rem; margin-bottom: 10px; display: block; text-decoration: underline; }
 
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .shop-container { grid-template-columns: 1fr; }
-        }
+        footer { padding: 50px 20px; text-align: center; font-size: 0.7rem; letter-spacing: 2px; }
+        @media (max-width: 768px) { .shop-container { grid-template-columns: 1fr; } #cart-panel { width: 100%; } }
     </style>
 </head>
 <body>
 
-    <div class="marquee">
-        EDITION 1 : FOOTBALL — RAMLOC WORLDWIDE — NO RESTOCK — EDITION 1 : FOOTBALL — RAMLOC WORLDWIDE — NO RESTOCK
-    </div>
+    <div class="marquee">EDITION 1 : FOOTBALL — RAMLOC WORLDWIDE — NO RESTOCK — EDITION 1 : FOOTBALL</div>
 
     <header>
         <div class="logo">RAMLOC</div>
         <nav>
             <a href="#">SHOP</a>
-            <a href="#">CART (0)</a>
+            <a onclick="toggleCart()">CART (<span id="cart-count">0</span>)</a>
         </nav>
     </header>
 
     <main class="shop-container">
-        <div class="product-card">
-            <img src="Sans titre.jpeg" alt="RAMLOC X BALOTELLI" class="product-image">
+        <div class="product-card" onclick="addToCart('Balotelli', 40)">
+            <img src="Sans titre.jpeg" alt="BALOTELLI" class="product-image">
             <div class="product-info">
                 <p class="product-title">RAMLOC X BALOTELLI (WHITE)</p>
-                <p class="product-price">45.00 EUR</p>
+                <p class="product-price">40.00 EUR</p>
             </div>
         </div>
 
-        <div class="product-card" style="background-color: #1a1a1a; color: white;">
-            <img src="neymar-noir.pnj.jpeg" alt="RAMLOC X NEYMAR" class="product-image">
+        <div class="product-card" style="background-color: #1a1a1a; color: white;" onclick="addToCart('Neymar', 40)">
+            <img src="neymar-noir.pnj.jpeg" alt="NEYMAR" class="product-image">
             <div class="product-info">
                 <p class="product-title">RAMLOC X NEYMAR (BLACK)</p>
-                <p class="product-price">45.00 EUR</p>
+                <p class="product-price">40.00 EUR</p>
             </div>
         </div>
 
-        <div class="product-card bg-pink">
-            <img src="pogba-rose.pnj.jpeg" alt="RAMLOC X POGBA" class="product-image">
+        <div class="product-card bg-pink" onclick="addToCart('Pogba', 40)">
+            <img src="pogba-rose.pnj.jpeg" alt="POGBA" class="product-image">
             <div class="product-info">
                 <p class="product-title">RAMLOC X POGBA (PINK)</p>
-                <p class="product-price">45.00 EUR</p>
+                <p class="product-price">40.00 EUR</p>
             </div>
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2026 RAMLOC LABORATOIRES. TOUS DROITS RÉSERVÉS.</p>
-    </footer>
+    <div id="cart-panel">
+        <span class="close-cart" onclick="toggleCart()">FERMER [X]</span>
+        <div class="cart-title">VOTRE PANIER</div>
+        <div id="cart-items" class="cart-items"></div>
+        <div id="cart-total" style="font-weight: bold; margin-top: 10px;">TOTAL: 0.00 EUR</div>
+        <button class="btn-checkout" onclick="checkout()">PASSER À LA CAISSE</button>
+    </div>
 
+    <footer><p>&copy; 2026 RAMLOC LABORATOIRES. TOUS DROITS RÉSERVÉS.</p></footer>
+
+    <script>
+        let cart = [];
+        const stripeLinks = {
+            'Balotelli': 'https://buy.stripe.com/5kQbJ1dIFfSsbOw2YgeZ200',
+            'Neymar': 'https://buy.stripe.com/14AfZhcEB35G6uc0Q8eZ202',
+            'Pogba': 'https://buy.stripe.com/3cI3cveMJ35G05OeGYeZ201'
+        };
+
+        function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
+
+        function addToCart(id, price) {
+            cart = [{id, price}]; // Limité à 1 article pour l'instant pour simplifier le paiement Stripe
+            updateCart();
+            toggleCart();
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const itemsContainer = document.getElementById('cart-items');
+            itemsContainer.innerHTML = '';
+            let total = 0;
+            cart.forEach((item) => {
+                total += item.price;
+                itemsContainer.innerHTML += `<div style="margin-bottom:10px;">RAMLOC X ${item.id} - ${item.price} EUR</div>`;
+            });
+            document.getElementById('cart-total').innerText = `TOTAL: ${total.toFixed(2)} EUR`;
+        }
+
+        function checkout() {
+            if(cart.length === 0) return alert("Panier vide !");
+            const product = cart[0].id;
+            window.location.href = stripeLinks[product];
+        }
+    </script>
 </body>
 </html>
