@@ -9,7 +9,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica', sans-serif; }
         body { background-color: var(--white); color: var(--black); text-transform: uppercase; overflow-x: hidden; }
 
-        /* Header resserré et aligné */
         header { 
             padding: 15px 20px; 
             display: grid; 
@@ -22,72 +21,63 @@
             z-index: 100; 
         }
         .menu-icon { cursor: pointer; font-size: 1.2rem; justify-self: start; }
-        .logo { font-size: 1.8rem; font-weight: 900; letter-spacing: -1.5px; text-align: center; line-height: 1; }
-        .cart-status { font-weight: 900; cursor: pointer; font-size: 0.8rem; justify-self: end; }
+        .logo { font-size: 2rem; font-weight: 900; letter-spacing: -2px; text-align: center; line-height: 1; }
+        .cart-status { font-weight: 900; cursor: pointer; font-size: 0.9rem; justify-self: end; }
 
-        .marquee { background: black; color: white; padding: 8px 0; font-size: 0.65rem; overflow: hidden; white-space: nowrap; font-weight: bold; }
+        .marquee { background: black; color: white; padding: 10px 0; font-size: 0.7rem; overflow: hidden; white-space: nowrap; font-weight: bold; }
 
-        /* Grille Produits */
-        .shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1px; background: black; border-bottom: 2px solid black; }
-        .product-card { background: white; padding: 30px 15px; text-align: center; display: flex; flex-direction: column; gap: 8px; }
+        .shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2px; background: black; border-bottom: 2px solid black; }
+        .product-card { background: white; padding: 40px 20px; text-align: center; display: flex; flex-direction: column; }
         
-        /* Conteneur Image avec alignement strict */
-        .image-container { 
-            width: 100%; 
-            aspect-ratio: 1 / 1; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: pointer;
-            background: transparent;
-            margin-bottom: 10px;
-        }
+        .image-container { width: 100%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; cursor: pointer; }
         .product-image { max-width: 100%; max-height: 100%; object-fit: contain; }
         
-        .product-title { font-size: 0.95rem; font-weight: 900; margin-top: 5px; }
-        .product-price { font-size: 0.9rem; margin-bottom: 5px; }
+        .product-title { font-size: 1.1rem; font-weight: 900; margin-bottom: 5px; }
+        .product-price { font-size: 1rem; margin-bottom: 20px; opacity: 0.8; }
 
-        /* Sélecteurs et boutons compacts */
-        .size-select { width: 100%; padding: 10px; border: 1px solid black; font-weight: bold; text-transform: uppercase; cursor: pointer; background: white; border-radius: 0; font-size: 0.8rem; }
-        .btn-buy { width: 100%; background: black; color: white; border: 1px solid black; padding: 15px; font-weight: 900; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        /* Alignement resserré Tailles */
+        .size-box { margin-bottom: 10px; text-align: center; }
+        .size-label { font-size: 0.7rem; font-weight: bold; margin-bottom: 5px; display: block; }
+        .size-select { width: 100%; padding: 12px; border: 2px solid black; font-weight: 900; text-transform: uppercase; cursor: pointer; background: white; border-radius: 0; }
+        
+        .btn-buy { width: 100%; background: black; color: white; border: none; padding: 18px; font-weight: 900; cursor: pointer; transition: 0.3s; }
         .btn-buy:hover { background: #333; }
-        .stock-warning { color: var(--red); font-size: 0.6rem; font-weight: 900; letter-spacing: 0.5px; }
+
+        .stock-warning { color: var(--red); font-size: 0.65rem; font-weight: 900; margin-top: 10px; letter-spacing: 1px; }
 
         /* Panier */
-        #cart-panel { position: fixed; right: -100%; top: 0; width: 350px; height: 100%; background: white; border-left: 3px solid black; z-index: 1000; transition: 0.3s; padding: 25px; display: flex; flex-direction: column; }
+        #cart-panel { position: fixed; right: -100%; top: 0; width: 350px; height: 100%; background: white; border-left: 3px solid black; z-index: 1000; transition: 0.4s; padding: 30px; display: flex; flex-direction: column; }
         #cart-panel.active { right: 0; }
-        .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid black; padding-bottom: 10px; margin-bottom: 15px; }
-        .cart-item { border-bottom: 1px solid #eee; padding: 12px 0; display: flex; justify-content: space-between; align-items: flex-start; }
-        .remove-btn { cursor: pointer; color: red; font-size: 0.7rem; font-weight: 900; margin-top: 5px; text-decoration: underline; }
+        .cart-item { border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; }
+        .remove-btn { cursor: pointer; color: red; font-size: 0.7rem; font-weight: 900; text-decoration: underline; }
 
-        /* Galerie Zoom */
+        /* Galerie */
         #gallery-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; display: none; flex-direction: column; overflow-y: auto; padding: 20px; }
-        .gallery-close { position: sticky; top: 0; align-self: flex-end; font-weight: 900; cursor: pointer; background: white; padding: 10px; border: 1px solid black; z-index: 2001; }
-        .gallery-content { display: flex; flex-direction: column; align-items: center; gap: 20px; padding-bottom: 50px; }
-        .gallery-content img { width: 100%; max-width: 600px; border: 1px solid #eee; }
+        .gallery-close { position: sticky; top: 10px; align-self: flex-end; font-weight: 900; cursor: pointer; background: black; color: white; padding: 10px 20px; z-index: 2001; }
+        .gallery-content { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .gallery-content img { width: 100%; max-width: 500px; }
 
         /* Menu */
-        #side-menu { position: fixed; left: -100%; top: 0; width: 300px; height: 100%; background: black; color: white; z-index: 1001; transition: 0.3s; padding: 30px; }
+        #side-menu { position: fixed; left: -100%; top: 0; width: 300px; height: 100%; background: black; color: white; z-index: 1002; transition: 0.4s; padding: 40px; }
         #side-menu.active { left: 0; }
-        .menu-link { display: block; font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color: white; text-decoration: none; }
+        .menu-link { display: block; font-size: 1.5rem; font-weight: 900; margin-bottom: 20px; color: white; text-decoration: none; }
 
-        footer { padding: 40px 20px; text-align: center; font-size: 0.65rem; opacity: 0.5; border-top: 1px solid #eee; }
+        footer { padding: 60px 20px; text-align: center; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
         @media (max-width: 768px) { #cart-panel { width: 100%; } }
     </style>
 </head>
 <body>
 
     <div id="gallery-overlay">
-        <div class="gallery-close" onclick="closeGallery()">[ FERMER LA GALERIE ]</div>
+        <div class="gallery-close" onclick="closeGallery()">CLOSE</div>
         <div class="gallery-content" id="gallery-images"></div>
     </div>
 
     <div id="side-menu">
-        <p onclick="toggleMenu()" style="cursor:pointer; margin-bottom:30px; font-size: 0.8rem;">[ FERMER ]</p>
+        <p onclick="toggleMenu()" style="cursor:pointer; margin-bottom:40px;">[ FERMER ]</p>
         <a href="#" class="menu-link">SHOOTING</a>
         <a href="#" class="menu-link">INSTAGRAM</a>
         <a href="#" class="menu-link">TIKTOK</a>
-        <a href="#" class="menu-link">ARCHIVES</a>
     </div>
 
     <div class="marquee">EDITION 1 : FOOTBALL — LIMITED TO 10 PCS PER SIZE — NO RESTOCK — RAMLOC WORLDWIDE</div>
@@ -105,13 +95,16 @@
             </div>
             <p class="product-title">RAMLOC X BALOTELLI (WHITE)</p>
             <p class="product-price">40.00 EUR</p>
-            <select id="size-Balotelli" class="size-select">
-                <option value="XS">XS - STOCK: 10</option>
-                <option value="S">S - STOCK: 10</option>
-                <option value="M">M - STOCK: 10</option>
-                <option value="L">L - STOCK: 10</option>
-                <option value="XL">XL - STOCK: 10</option>
-            </select>
+            <div class="size-box">
+                <span class="size-label">SÉLECTIONNE TA TAILLE :</span>
+                <select id="size-Balotelli" class="size-select">
+                    <option value="XS">XS - (STOCK: 10)</option>
+                    <option value="S">S - (STOCK: 10)</option>
+                    <option value="M">M - (STOCK: 10)</option>
+                    <option value="L">L - (STOCK: 10)</option>
+                    <option value="XL">XL - (STOCK: 10)</option>
+                </select>
+            </div>
             <button class="btn-buy" onclick="addToCart('Balotelli', 40)">ADD TO CART</button>
             <p class="stock-warning">DROP LIMITÉ - 10 UNITÉS PAR TAILLE</p>
         </div>
@@ -122,13 +115,16 @@
             </div>
             <p class="product-title">RAMLOC X NEYMAR (BLACK)</p>
             <p class="product-price">40.00 EUR</p>
-            <select id="size-Neymar" class="size-select" style="background: #111; color: white; border-color: white;">
-                <option value="XS">XS - STOCK: 10</option>
-                <option value="S">S - STOCK: 10</option>
-                <option value="M">M - STOCK: 10</option>
-                <option value="L">L - STOCK: 10</option>
-                <option value="XL">XL - STOCK: 10</option>
-            </select>
+            <div class="size-box">
+                <span class="size-label" style="color: white;">SÉLECTIONNE TA TAILLE :</span>
+                <select id="size-Neymar" class="size-select">
+                    <option value="XS">XS - (STOCK: 10)</option>
+                    <option value="S">S - (STOCK: 10)</option>
+                    <option value="M">M - (STOCK: 10)</option>
+                    <option value="L">L - (STOCK: 10)</option>
+                    <option value="XL">XL - (STOCK: 10)</option>
+                </select>
+            </div>
             <button class="btn-buy" style="background: white; color: black;" onclick="addToCart('Neymar', 40)">ADD TO CART</button>
             <p class="stock-warning">DROP LIMITÉ - 10 UNITÉS PAR TAILLE</p>
         </div>
@@ -139,28 +135,27 @@
             </div>
             <p class="product-title">RAMLOC X POGBA (PINK)</p>
             <p class="product-price">40.00 EUR</p>
-            <select id="size-Pogba" class="size-select">
-                <option value="XS">XS - STOCK: 10</option>
-                <option value="S">S - STOCK: 10</option>
-                <option value="M">M - STOCK: 10</option>
-                <option value="L">L - STOCK: 10</option>
-                <option value="XL">XL - STOCK: 10</option>
-            </select>
+            <div class="size-box">
+                <span class="size-label">SÉLECTIONNE TA TAILLE :</span>
+                <select id="size-Pogba" class="size-select">
+                    <option value="XS">XS - (STOCK: 10)</option>
+                    <option value="S">S - (STOCK: 10)</option>
+                    <option value="M">M - (STOCK: 10)</option>
+                    <option value="L">L - (STOCK: 10)</option>
+                    <option value="XL">XL - (STOCK: 10)</option>
+                </select>
+            </div>
             <button class="btn-buy" onclick="addToCart('Pogba', 40)">ADD TO CART</button>
             <p class="stock-warning">DROP LIMITÉ - 10 UNITÉS PAR TAILLE</p>
         </div>
     </main>
 
     <div id="cart-panel">
-        <div class="cart-header">
-            <h2 style="font-size: 1rem; font-weight: 900;">VOTRE PANIER</h2>
-            <span onclick="toggleCart()" style="cursor:pointer; font-weight:900;">[ X ]</span>
-        </div>
+        <p onclick="toggleCart()" style="cursor:pointer; font-weight:900; margin-bottom:20px;">[ FERMER ]</p>
+        <h2 style="font-weight:900; border-bottom:3px solid black; padding-bottom:10px;">VOTRE PANIER</h2>
         <div id="cart-items" style="flex-grow: 1; overflow-y: auto;"></div>
-        <div style="border-top: 2px solid black; padding-top: 15px;">
-            <div id="total-price" style="font-weight:900; font-size: 1.1rem; margin-bottom: 15px;">TOTAL : 0.00 EUR</div>
-            <button class="btn-buy" onclick="checkout()">FINALISER LA COMMANDE</button>
-        </div>
+        <div id="total-price" style="margin-top:20px; font-weight:900; font-size:1.2rem; border-top: 2px solid black; padding-top: 10px;">TOTAL : 0.00 EUR</div>
+        <button class="btn-buy" style="margin-top: 20px;" onclick="goToStripe()">FINALISER LA COMMANDE</button>
     </div>
 
     <footer><p>&copy; 2026 RAMLOC LABORATOIRES. TOUS DROITS RÉSERVÉS.</p></footer>
@@ -172,11 +167,10 @@
             'Pogba': 'https://buy.stripe.com/3cI3cveMJ35G05OeGYeZ201'
         };
 
-        // Configuration des photos (Ajoute tes liens réels ici)
         const productPhotos = {
-            'balotelli': ['Sans titre.jpeg', 'balotelli-back.jpg', 'balotelli-front.jpg'],
-            'neymar': ['neymar-noir.pnj.jpeg', 'neymar-back.jpg', 'neymar-front.jpg'],
-            'pogba': ['pogba-rose.pnj.jpeg', 'pogba-back.jpg', 'pogba-front.jpg']
+            'balotelli': ['balotelli-front.jpg', 'balotelli-back.jpg', 'Sans titre.jpeg'],
+            'neymar': ['neymar-front.jpg', 'neymar-back.jpg', 'neymar-noir.pnj.jpeg'],
+            'pogba': ['pogba-front.jpg', 'pogba-back.jpg', 'pogba-rose.pnj.jpeg']
         };
 
         let cart = [];
@@ -199,44 +193,43 @@
 
         function addToCart(id, price) {
             const size = document.getElementById('size-' + id).value;
-            cart.push({ id, price, size, timestamp: Date.now() });
+            cart.push({ id, price, size });
             updateCart();
             toggleCart();
         }
 
-        function removeFromCart(index) {
+        function remove(index) {
             cart.splice(index, 1);
             updateCart();
         }
 
         function updateCart() {
             const list = document.getElementById('cart-items');
-            const totalText = document.getElementById('total-price');
-            const countText = document.getElementById('cart-count');
-            
+            const totalDisplay = document.getElementById('total-price');
+            const countDisplay = document.getElementById('cart-count');
             list.innerHTML = "";
             let total = 0;
-            
+
             cart.forEach((item, index) => {
                 total += item.price;
                 list.innerHTML += `
                     <div class="cart-item">
                         <div>
-                            <span style="font-weight:900;">RAMLOC X ${item.id.toUpperCase()}</span><br>
-                            <span style="font-size:0.75rem;">TAILLE : ${item.size}</span><br>
-                            <span class="remove-btn" onclick="removeFromCart(${index})">SUPPRIMER</span>
+                            <strong>RAMLOC X ${item.id.toUpperCase()}</strong><br>
+                            TAILLE: ${item.size}
                         </div>
-                        <div style="font-weight:900;">${item.price}.00 EUR</div>
+                        <div style="text-align:right">
+                            ${item.price} EUR<br>
+                            <span class="remove-btn" onclick="remove(${index})">SUPPRIMER</span>
+                        </div>
                     </div>`;
             });
-            
-            countText.innerText = cart.length;
-            totalText.innerText = `TOTAL : ${total.toFixed(2)} EUR`;
+            countDisplay.innerText = cart.length;
+            totalDisplay.innerText = `TOTAL : ${total}.00 EUR`;
         }
 
-        function checkout() {
-            if (cart.length === 0) return alert("Votre panier est vide.");
-            // Redirection directe vers le lien Stripe du premier article ou un lien global
+        function goToStripe() {
+            if(cart.length === 0) return alert("Panier vide");
             window.location.href = stripeLinks[cart[0].id];
         }
     </script>
