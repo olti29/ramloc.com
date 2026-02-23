@@ -9,6 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica', sans-serif; }
         body { background-color: var(--white); color: var(--black); text-transform: uppercase; overflow-x: hidden; }
 
+        /* Header aligné RAMLOC en haut */
         header { 
             padding: 15px 20px; 
             display: grid; 
@@ -35,32 +36,27 @@
         .product-title { font-size: 1.1rem; font-weight: 900; margin-bottom: 5px; }
         .product-price { font-size: 1rem; margin-bottom: 20px; opacity: 0.8; }
 
-        /* Alignement resserré Tailles */
+        /* Alignement TEXTE RESSERRÉ */
         .size-box { margin-bottom: 10px; text-align: center; }
-        .size-label { font-size: 0.7rem; font-weight: bold; margin-bottom: 5px; display: block; }
-        .size-select { width: 100%; padding: 12px; border: 2px solid black; font-weight: 900; text-transform: uppercase; cursor: pointer; background: white; border-radius: 0; }
+        .size-label { font-size: 0.75rem; font-weight: 900; margin-bottom: 2px; display: block; }
+        .size-select { width: 100%; padding: 12px; border: 2px solid black; font-weight: 900; text-transform: uppercase; cursor: pointer; background: white; border-radius: 0; font-size: 0.85rem; }
         
-        .btn-buy { width: 100%; background: black; color: white; border: none; padding: 18px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        .btn-buy { width: 100%; background: black; color: white; border: none; padding: 18px; font-weight: 900; cursor: pointer; transition: 0.3s; margin-top: 5px; }
         .btn-buy:hover { background: #333; }
 
         .stock-warning { color: var(--red); font-size: 0.65rem; font-weight: 900; margin-top: 10px; letter-spacing: 1px; }
 
-        /* Panier */
+        /* Panier avec suppression */
         #cart-panel { position: fixed; right: -100%; top: 0; width: 350px; height: 100%; background: white; border-left: 3px solid black; z-index: 1000; transition: 0.4s; padding: 30px; display: flex; flex-direction: column; }
         #cart-panel.active { right: 0; }
         .cart-item { border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; }
         .remove-btn { cursor: pointer; color: red; font-size: 0.7rem; font-weight: 900; text-decoration: underline; }
 
-        /* Galerie */
+        /* Galerie Zoom */
         #gallery-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; display: none; flex-direction: column; overflow-y: auto; padding: 20px; }
         .gallery-close { position: sticky; top: 10px; align-self: flex-end; font-weight: 900; cursor: pointer; background: black; color: white; padding: 10px 20px; z-index: 2001; }
-        .gallery-content { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        .gallery-content img { width: 100%; max-width: 500px; }
-
-        /* Menu */
-        #side-menu { position: fixed; left: -100%; top: 0; width: 300px; height: 100%; background: black; color: white; z-index: 1002; transition: 0.4s; padding: 40px; }
-        #side-menu.active { left: 0; }
-        .menu-link { display: block; font-size: 1.5rem; font-weight: 900; margin-bottom: 20px; color: white; text-decoration: none; }
+        .gallery-content { display: flex; flex-direction: column; align-items: center; gap: 20px; padding-bottom: 50px; }
+        .gallery-content img { width: 100%; max-width: 500px; border: 1px solid #f0f0f0; }
 
         footer { padding: 60px 20px; text-align: center; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
         @media (max-width: 768px) { #cart-panel { width: 100%; } }
@@ -69,21 +65,14 @@
 <body>
 
     <div id="gallery-overlay">
-        <div class="gallery-close" onclick="closeGallery()">CLOSE</div>
+        <div class="gallery-close" onclick="closeGallery()">[ FERMER ]</div>
         <div class="gallery-content" id="gallery-images"></div>
-    </div>
-
-    <div id="side-menu">
-        <p onclick="toggleMenu()" style="cursor:pointer; margin-bottom:40px;">[ FERMER ]</p>
-        <a href="#" class="menu-link">SHOOTING</a>
-        <a href="#" class="menu-link">INSTAGRAM</a>
-        <a href="#" class="menu-link">TIKTOK</a>
     </div>
 
     <div class="marquee">EDITION 1 : FOOTBALL — LIMITED TO 10 PCS PER SIZE — NO RESTOCK — RAMLOC WORLDWIDE</div>
 
     <header>
-        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <div class="menu-icon">☰</div>
         <div class="logo">RAMLOC</div>
         <div class="cart-status" onclick="toggleCart()">CART (<span id="cart-count">0</span>)</div>
     </header>
@@ -152,7 +141,7 @@
 
     <div id="cart-panel">
         <p onclick="toggleCart()" style="cursor:pointer; font-weight:900; margin-bottom:20px;">[ FERMER ]</p>
-        <h2 style="font-weight:900; border-bottom:3px solid black; padding-bottom:10px;">VOTRE PANIER</h2>
+        <h2 style="font-weight:900; border-bottom:3px solid black; padding-bottom:10px;">PANIER</h2>
         <div id="cart-items" style="flex-grow: 1; overflow-y: auto;"></div>
         <div id="total-price" style="margin-top:20px; font-weight:900; font-size:1.2rem; border-top: 2px solid black; padding-top: 10px;">TOTAL : 0.00 EUR</div>
         <button class="btn-buy" style="margin-top: 20px;" onclick="goToStripe()">FINALISER LA COMMANDE</button>
@@ -167,16 +156,16 @@
             'Pogba': 'https://buy.stripe.com/3cI3cveMJ35G05OeGYeZ201'
         };
 
+        // Noms de fichiers basés sur tes fichiers GitHub
         const productPhotos = {
-            'balotelli': ['balotelli-front.jpg', 'balotelli-back.jpg', 'Sans titre.jpeg'],
-            'neymar': ['neymar-front.jpg', 'neymar-back.jpg', 'neymar-noir.pnj.jpeg'],
-            'pogba': ['pogba-front.jpg', 'pogba-back.jpg', 'pogba-rose.pnj.jpeg']
+            'balotelli': ['balotelli-front.png', 'balotelli-back.png', 'Sans titre.jpeg'],
+            'neymar': ['neymar-front.png', 'neymar-back.png', 'neymar-noir.pnj.jpeg'],
+            'pogba': ['pogba-front.png', 'pogba-back.png', 'pogba-rose.pnj.jpeg']
         };
 
         let cart = [];
 
         function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
-        function toggleMenu() { document.getElementById('side-menu').classList.toggle('active'); }
 
         function openGallery(id) {
             const container = document.getElementById('gallery-images');
@@ -219,7 +208,7 @@
                             TAILLE: ${item.size}
                         </div>
                         <div style="text-align:right">
-                            ${item.price} EUR<br>
+                            ${item.price}.00 EUR<br>
                             <span class="remove-btn" onclick="remove(${index})">SUPPRIMER</span>
                         </div>
                     </div>`;
@@ -229,7 +218,7 @@
         }
 
         function goToStripe() {
-            if(cart.length === 0) return alert("Panier vide");
+            if(cart.length === 0) return alert("Votre panier est vide");
             window.location.href = stripeLinks[cart[0].id];
         }
     </script>
