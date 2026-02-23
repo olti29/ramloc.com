@@ -22,22 +22,22 @@
         }
         .menu-icon { cursor: pointer; font-size: 1.5rem; justify-self: start; font-weight: bold; }
         .logo { font-size: 2rem; font-weight: 900; letter-spacing: -2px; text-align: center; line-height: 1; }
-        .cart-status { font-weight: 900; cursor: pointer; font-size: 0.9rem; justify-self: end; }
+        .cart-status { font-weight: 900; cursor: pointer; font-size: 0.85rem; justify-self: end; }
 
         .marquee { background: black; color: white; padding: 10px 0; font-size: 0.7rem; overflow: hidden; white-space: nowrap; font-weight: bold; }
 
         .shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2px; background: black; border-bottom: 2px solid black; }
-        .product-card { background: white; padding: 30px 20px; text-align: center; display: flex; flex-direction: column; }
+        .product-card { background: white; padding: 40px 20px 30px 20px; text-align: center; display: flex; flex-direction: column; }
         
         .image-container { width: 100%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; }
         .product-image { max-width: 100%; max-height: 100%; object-fit: contain; }
         
         .product-title { font-size: 1.1rem; font-weight: 900; margin-bottom: 2px; }
-        .product-price { font-size: 0.95rem; margin-bottom: 10px; opacity: 0.8; }
+        .product-price { font-size: 0.95rem; margin-bottom: 0px; opacity: 0.8; } /* Suppression marge bas */
 
-        /* Alignement ultra-resserré */
-        .size-box { margin-bottom: 0px; text-align: center; }
-        .size-label { font-size: 0.65rem; font-weight: 900; margin-bottom: 4px; display: block; }
+        /* STYLE RESSERRÉ COMME DEMANDÉ */
+        .size-box { margin-top: 0px; margin-bottom: 0px; text-align: center; }
+        .size-label { font-size: 0.65rem; font-weight: 900; margin-bottom: 2px; margin-top: 10px; display: block; }
         .size-select { 
             width: 100%; 
             padding: 10px; 
@@ -47,10 +47,10 @@
             cursor: pointer; 
             background: white; 
             border-radius: 0; 
-            font-size: 0.75rem; /* Écriture XS STOCK plus petite */
+            font-size: 0.7rem; /* Écriture plus petite */
         }
         
-        .btn-buy { width: 100%; background: black; color: white; border: none; padding: 18px; font-weight: 900; cursor: pointer; transition: 0.3s; margin-top: 0px; border-top: 1px solid white; }
+        .btn-buy { width: 100%; background: black; color: white; border: none; padding: 18px; font-weight: 900; cursor: pointer; transition: 0.3s; margin-top: 0px; }
         .btn-buy:hover { background: #333; }
 
         .stock-warning { color: var(--red); font-size: 0.6rem; font-weight: 900; margin-top: 8px; letter-spacing: 1px; }
@@ -58,7 +58,7 @@
         /* Panier */
         #cart-panel { position: fixed; right: -100%; top: 0; width: 350px; height: 100%; background: white; border-left: 3px solid black; z-index: 1000; transition: 0.4s; padding: 30px; display: flex; flex-direction: column; }
         #cart-panel.active { right: 0; }
-        .cart-item { border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; }
+        .cart-item { border-bottom: 1px solid #eee; padding: 12px 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; }
         .remove-btn { cursor: pointer; color: red; font-size: 0.65rem; font-weight: 900; text-decoration: underline; }
 
         /* Galerie */
@@ -162,7 +162,7 @@
 
     <div id="cart-panel">
         <p onclick="toggleCart()" style="cursor:pointer; font-weight:900; margin-bottom:20px;">[ FERMER ]</p>
-        <h2 style="font-weight:900; border-bottom:3px solid black; padding-bottom:10px; font-size: 1rem;">VOTRE PANIER</h2>
+        <h2 style="font-weight:900; border-bottom:3px solid black; padding-bottom:10px; font-size: 1rem;">PANIER</h2>
         <div id="cart-items" style="flex-grow: 1; overflow-y: auto;"></div>
         <div id="total-price" style="margin-top:10px; font-weight:900; font-size:1.1rem; border-top: 2px solid black; padding-top: 10px;">TOTAL : 0.00 EUR</div>
         <button class="btn-buy" style="margin-top: 15px;" onclick="goToStripe()">FINALISER LA COMMANDE</button>
@@ -179,7 +179,7 @@
 
         const productPhotos = {
             'balotelli': ['balotelli-front.png', 'balotelli-back.png', 'Sans titre.jpeg'],
-            'neymar': ['neymar-front .png', 'neymar-back .png', 'neymar-noir.pnj.jpeg'],
+            'neymar': ['neymar-front.png', 'neymar-back.png', 'neymar-noir.pnj.jpeg'],
             'pogba': ['pogba-front.png', 'pogba-back.png', 'pogba-rose.pnj.jpeg']
         };
 
@@ -224,14 +224,8 @@
                 total += item.price;
                 list.innerHTML += `
                     <div class="cart-item">
-                        <div>
-                            <strong>RAMLOC X ${item.id.toUpperCase()}</strong><br>
-                            TAILLE: ${item.size}
-                        </div>
-                        <div style="text-align:right">
-                            ${item.price}.00 EUR<br>
-                            <span class="remove-btn" onclick="remove(${index})">SUPPRIMER</span>
-                        </div>
+                        <div><strong>RAMLOC X ${item.id.toUpperCase()}</strong><br>TAILLE: ${item.size}</div>
+                        <div style="text-align:right">${item.price}.00 EUR<br><span class="remove-btn" onclick="remove(${index})">SUPPRIMER</span></div>
                     </div>`;
             });
             countDisplay.innerText = cart.length;
@@ -239,7 +233,7 @@
         }
 
         function goToStripe() {
-            if(cart.length === 0) return alert("Votre panier est vide");
+            if(cart.length === 0) return alert("Panier vide");
             window.location.href = stripeLinks[cart[0].id];
         }
     </script>
