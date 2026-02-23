@@ -5,165 +5,203 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RAMLOC | FOOTBALL EDITION 1</title>
     <style>
-        :root { --black: #000000; --white: #ffffff; --pink: #f8c8dc; --red: #ff0000; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica', sans-serif; }
-        body { background-color: var(--white); color: var(--black); text-transform: uppercase; }
+        :root { --black: #000000; --white: #ffffff; --pink: #f8c8dc; --red: #ff0000; --gray: #f4f4f4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica', Arial, sans-serif; }
+        body { background-color: var(--white); color: var(--black); text-transform: uppercase; overflow-x: hidden; }
 
+        /* Header & Menu */
         header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid black; position: sticky; top: 0; background: white; z-index: 100; }
-        .logo { font-size: 2rem; font-weight: 900; letter-spacing: -2px; }
+        .logo { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; cursor: pointer; }
+        .nav-right { display: flex; gap: 20px; align-items: center; font-weight: 900; }
+        .menu-icon { cursor: pointer; font-size: 1.5rem; }
+
+        .marquee { background: black; color: white; padding: 10px 0; font-size: 0.7rem; overflow: hidden; white-space: nowrap; font-weight: bold; border-bottom: 1px solid #333; }
+
+        /* Grille Produits */
+        .shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); background: black; gap: 1px; }
+        .product-card { background: white; padding: 60px 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; }
         
-        .marquee { background: black; color: white; padding: 10px 0; font-size: 0.7rem; overflow: hidden; white-space: nowrap; font-weight: bold; }
+        /* Alignement des images */
+        .image-container { 
+            width: 100%; 
+            aspect-ratio: 1/1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin-bottom: 30px; 
+            overflow: hidden;
+            cursor: zoom-in;
+            background: transparent;
+        }
+        .product-image { max-width: 90%; max-height: 90%; object-fit: contain; transition: transform 0.4s ease; }
+        .image-container:hover .product-image { transform: scale(1.05); }
 
-        .shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2px; background: black; border-bottom: 2px solid black; }
-        .product-card { background: white; padding: 40px 20px; text-align: center; }
-        .product-image { width: 100%; max-width: 380px; margin-bottom: 20px; }
-        
-        .product-title { font-size: 1.1rem; font-weight: 900; margin-bottom: 5px; }
-        .product-price { font-size: 1rem; margin-bottom: 20px; opacity: 0.8; }
+        .product-title { font-size: 1rem; font-weight: 900; margin-bottom: 5px; }
+        .product-price { font-size: 0.9rem; margin-bottom: 20px; }
 
-        /* Style des Tailles */
-        .size-box { margin: 15px 0; }
-        .size-label { font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: block; }
-        .size-select { width: 100%; padding: 12px; border: 2px solid black; font-weight: 900; text-transform: uppercase; cursor: pointer; background: white; }
-        
-        /* Bouton d'achat */
-        .btn-buy { width: 100%; background: black; color: white; border: none; padding: 18px; font-weight: 900; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-buy:hover { background: #333; }
-        .btn-buy:disabled { background: #eee; color: #aaa; cursor: not-allowed; border: 1px solid #ccc; }
+        /* Tailles & Boutons */
+        .size-select { width: 100%; padding: 12px; border: 1px solid black; font-weight: 400; text-transform: uppercase; cursor: pointer; background: white; appearance: none; border-radius: 0; margin-bottom: 10px; }
+        .btn-buy { width: 100%; background: black; color: white; border: 1px solid black; padding: 18px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        .btn-buy:hover { background: white; color: black; }
+        .stock-warning { color: var(--red); font-size: 0.6rem; font-weight: 900; margin-top: 10px; }
 
-        .stock-warning { color: var(--red); font-size: 0.65rem; font-weight: 900; margin-top: 10px; letter-spacing: 1px; }
-
-        /* Panier */
-        #cart-panel { position: fixed; right: -100%; top: 0; width: 350px; height: 100%; background: white; border-left: 3px solid black; z-index: 1000; transition: 0.4s; padding: 30px; }
+        /* Panier latéral */
+        #cart-panel { position: fixed; right: -100%; top: 0; width: 400px; height: 100%; background: white; border-left: 2px solid black; z-index: 1001; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 40px 25px; display: flex; flex-direction: column; }
         #cart-panel.active { right: 0; }
-        .cart-item-row { border-bottom: 1px solid #eee; padding: 15px 0; font-weight: bold; }
-        
-        footer { padding: 60px 20px; text-align: center; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
-        @media (max-width: 768px) { #cart-panel { width: 100%; } }
+        .cart-items-list { flex-grow: 1; overflow-y: auto; margin: 20px 0; }
+        .cart-item { border-bottom: 1px solid #ddd; padding: 15px 0; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+
+        /* Menu latéral */
+        #side-menu { position: fixed; left: -100%; top: 0; width: 300px; height: 100%; background: black; color: white; z-index: 1002; transition: 0.4s; padding: 40px; }
+        #side-menu.active { left: 0; }
+        .menu-link { display: block; font-size: 1.5rem; font-weight: 900; margin-bottom: 20px; color: white; text-decoration: none; transition: 0.2s; }
+        .menu-link:hover { padding-left: 10px; color: var(--pink); }
+
+        /* Overlay Zoom */
+        #zoom-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.98); z-index:2000; display:none; align-items:center; justify-content:center; cursor: zoom-out; }
+        #zoom-overlay img { max-width: 90%; max-height: 90%; object-fit: contain; }
+
+        footer { padding: 100px 20px; text-align: center; font-size: 0.7rem; letter-spacing: 2px; border-top: 1px solid #eee; }
+
+        @media (max-width: 768px) { #cart-panel, #side-menu { width: 100%; } }
     </style>
 </head>
 <body>
 
+    <div id="zoom-overlay" onclick="this.style.display='none'">
+        <img src="" id="zoomed-img">
+    </div>
+
+    <div id="side-menu">
+        <p onclick="toggleMenu()" style="cursor:pointer; margin-bottom:40px;">[ FERMER ]</p>
+        <a href="#" class="menu-link">SHOP ALL</a>
+        <a href="#" class="menu-link">SHOOTING / LOOKBOOK</a>
+        <a href="#" class="menu-link">ARCHIVES</a>
+        <a href="#" class="menu-link">INSTAGRAM</a>
+        <a href="#" class="menu-link">TIKTOK</a>
+    </div>
+
     <div class="marquee">EDITION 1 : FOOTBALL — LIMITED TO 10 PCS PER SIZE — NO RESTOCK — RAMLOC WORLDWIDE</div>
 
     <header>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
         <div class="logo">RAMLOC</div>
-        <div style="font-weight: 900; cursor: pointer;" onclick="toggleCart()">CART (<span id="cart-count">0</span>)</div>
+        <div class="nav-right">
+            <div style="cursor: pointer;" onclick="toggleCart()">CART (<span id="cart-count">0</span>)</div>
+        </div>
     </header>
 
     <main class="shop-container">
-        
         <div class="product-card">
-            <img src="Sans titre.jpeg" class="product-image">
+            <div class="image-container" onclick="zoomImg('Sans titre.jpeg')">
+                <img src="Sans titre.jpeg" class="product-image">
+            </div>
             <p class="product-title">RAMLOC X BALOTELLI (WHITE)</p>
             <p class="product-price">40.00 EUR</p>
-            <div class="size-box">
-                <span class="size-label">SÉLECTIONNE TA TAILLE :</span>
-                <select id="size-Balotelli" class="size-select" onchange="checkStock('Balotelli')">
-                    <option value="XS">XS - (STOCK: 10)</option>
-                    <option value="S">S - (STOCK: 10)</option>
-                    <option value="M">M - (STOCK: 10)</option>
-                    <option value="L">L - (STOCK: 10)</option>
-                    <option value="XL">XL - (STOCK: 10)</option>
-                </select>
-            </div>
-            <button id="btn-Balotelli" class="btn-buy" onclick="addToCart('Balotelli', 40)">ADD TO CART</button>
+            <select id="size-Balotelli" class="size-select">
+                <option value="XS">XS - STOCK: 10</option>
+                <option value="S">S - STOCK: 10</option>
+                <option value="M">M - STOCK: 10</option>
+                <option value="L">L - STOCK: 10</option>
+                <option value="XL">XL - STOCK: 10</option>
+            </select>
+            <button class="btn-buy" onclick="addToCart('Balotelli', 40)">ADD TO CART</button>
             <p class="stock-warning">DROP LIMITÉ - 10 UNITÉS PAR TAILLE</p>
         </div>
 
-        <div class="product-card" style="background: #111; color: white;">
-            <img src="neymar-noir.pnj.jpeg" class="product-image">
+        <div class="product-card" style="background: #000; color: white;">
+            <div class="image-container" onclick="zoomImg('neymar-noir.pnj.jpeg')">
+                <img src="neymar-noir.pnj.jpeg" class="product-image">
+            </div>
             <p class="product-title">RAMLOC X NEYMAR (BLACK)</p>
             <p class="product-price">40.00 EUR</p>
-            <div class="size-box">
-                <span class="size-label" style="color: white;">SÉLECTIONNE TA TAILLE :</span>
-                <select id="size-Neymar" class="size-select" onchange="checkStock('Neymar')">
-                    <option value="XS">XS - (STOCK: 10)</option>
-                    <option value="S">S - (STOCK: 10)</option>
-                    <option value="M">M - (STOCK: 10)</option>
-                    <option value="L">L - (STOCK: 10)</option>
-                    <option value="XL">XL - (STOCK: 10)</option>
-                </select>
-            </div>
-            <button id="btn-Neymar" class="btn-buy" style="background: white; color: black;" onclick="addToCart('Neymar', 40)">ADD TO CART</button>
+            <select id="size-Neymar" class="size-select" style="background:transparent; color:white; border-color:white;">
+                <option value="XS">XS - STOCK: 10</option>
+                <option value="S">S - STOCK: 10</option>
+                <option value="M">M - STOCK: 10</option>
+                <option value="L">L - STOCK: 10</option>
+                <option value="XL">XL - STOCK: 10</option>
+            </select>
+            <button class="btn-buy" style="background: white; color: black;" onclick="addToCart('Neymar', 40)">ADD TO CART</button>
             <p class="stock-warning">DROP LIMITÉ - 10 UNITÉS PAR TAILLE</p>
         </div>
 
         <div class="product-card" style="background: var(--pink);">
-            <img src="pogba-rose.pnj.jpeg" class="product-image">
+            <div class="image-container" onclick="zoomImg('pogba-rose.pnj.jpeg')">
+                <img src="pogba-rose.pnj.jpeg" class="product-image">
+            </div>
             <p class="product-title">RAMLOC X POGBA (PINK)</p>
             <p class="product-price">40.00 EUR</p>
-            <div class="size-box">
-                <span class="size-label">SÉLECTIONNE TA TAILLE :</span>
-                <select id="size-Pogba" class="size-select" onchange="checkStock('Pogba')">
-                    <option value="XS">XS - (STOCK: 10)</option>
-                    <option value="S">S - (STOCK: 10)</option>
-                    <option value="M">M - (STOCK: 10)</option>
-                    <option value="L">L - (STOCK: 10)</option>
-                    <option value="XL">XL - (STOCK: 10)</option>
-                </select>
-            </div>
-            <button id="btn-Pogba" class="btn-buy" onclick="addToCart('Pogba', 40)">ADD TO CART</button>
+            <select id="size-Pogba" class="size-select">
+                <option value="XS">XS - STOCK: 10</option>
+                <option value="S">S - STOCK: 10</option>
+                <option value="M">M - STOCK: 10</option>
+                <option value="L">L - STOCK: 10</option>
+                <option value="XL">XL - STOCK: 10</option>
+            </select>
+            <button class="btn-buy" onclick="addToCart('Pogba', 40)">ADD TO CART</button>
             <p class="stock-warning">DROP LIMITÉ - 10 UNITÉS PAR TAILLE</p>
         </div>
-
     </main>
 
     <div id="cart-panel">
-        <p onclick="toggleCart()" style="cursor:pointer; font-weight:900; margin-bottom:20px;">[ FERMER ]</p>
-        <h2 style="font-weight:900; border-bottom:3px solid black; padding-bottom:10px;">VOTRE PANIER</h2>
-        <div id="cart-items" style="margin-top:20px;"></div>
-        <div id="total-price" style="margin-top:20px; font-weight:900; font-size:1.2rem;">TOTAL : 0.00 EUR</div>
-        <button class="btn-buy" onclick="goToStripe()">FINALISER LA COMMANDE</button>
+        <div style="display:flex; justify-content: space-between; align-items: center; border-bottom: 2px solid black; padding-bottom: 10px;">
+            <h2 style="font-weight:900;">PANIER</h2>
+            <p onclick="toggleCart()" style="cursor:pointer; font-weight:900;">[ X ]</p>
+        </div>
+        <div class="cart-items-list" id="cart-items">
+            </div>
+        <div style="margin-top: auto; padding-top: 20px; border-top: 2px solid black;">
+            <div id="total-price" style="font-weight:900; font-size:1.4rem; margin-bottom: 20px;">TOTAL : 0.00 EUR</div>
+            <button class="btn-buy" onclick="alert('Redirection Stripe...')">FINALISER LA COMMANDE</button>
+        </div>
     </div>
 
     <footer><p>&copy; 2026 RAMLOC LABORATOIRES. TOUS DROITS RÉSERVÉS.</p></footer>
 
     <script>
-        const stripeLinks = {
-            'Balotelli': 'https://buy.stripe.com/5kQbJ1dIFfSsbOw2YgeZ200',
-            'Neymar': 'https://buy.stripe.com/14AfZhcEB35G6uc0Q8eZ202',
-            'Pogba': 'https://buy.stripe.com/3cI3cveMJ35G05OeGYeZ201'
-        };
-
-        let currentCart = null;
+        let cart = [];
 
         function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
+        function toggleMenu() { document.getElementById('side-menu').classList.toggle('active'); }
+
+        function zoomImg(src) {
+            document.getElementById('zoomed-img').src = src;
+            document.getElementById('zoom-overlay').style.display = 'flex';
+        }
 
         function addToCart(id, price) {
             const size = document.getElementById('size-' + id).value;
-            currentCart = { id, price, size };
-            
-            document.getElementById('cart-count').innerText = "1";
-            document.getElementById('cart-items').innerHTML = `
-                <div class="cart-item-row">
-                    RAMLOC X ${id.toUpperCase()}<br>
-                    TAILLE : ${size}<br>
-                    PRIX : ${price} EUR
-                </div>`;
-            document.getElementById('total-price').innerText = `TOTAL : ${price}.00 EUR`;
+            cart.push({ id, price, size });
+            updateCartUI();
             toggleCart();
         }
 
-        function goToStripe() {
-            if(!currentCart) return alert("Panier vide");
-            window.location.href = stripeLinks[currentCart.id];
-        }
-
-        // FONCTION POUR BLOQUER UNE TAILLE SI RUPTURE
-        function checkStock(id) {
-            const select = document.getElementById('size-' + id);
-            const btn = document.getElementById('btn-' + id);
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const count = document.getElementById('cart-count');
+            const total = document.getElementById('total-price');
             
-            if (select.value === "SOLD_OUT") { // Exemple si tu veux bloquer
-                btn.disabled = true;
-                btn.innerText = "SOLD OUT";
-            } else {
-                btn.disabled = false;
-                btn.innerText = "ADD TO CART";
-            }
+            count.innerText = cart.length;
+            container.innerHTML = "";
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                totalPrice += item.price;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>RAMLOC X ${item.id.toUpperCase()}</strong><br>
+                            TAILLE: ${item.size}
+                        </div>
+                        <div>${item.price}.00 EUR</div>
+                    </div>
+                `;
+            });
+
+            total.innerText = `TOTAL : ${totalPrice}.00 EUR`;
         }
     </script>
 </body>
 </html>
- 
+
